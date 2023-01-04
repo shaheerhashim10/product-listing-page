@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
 import { NextPage } from "next";
+import Header from "../components/header/header.component";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +15,7 @@ const Home: NextPage = () => {
     <link rel="icon" href="/favicon.ico" />
   </Head>;
   return (
-    <div>
-      <h1>Product Listing Page</h1>
-    </div>
+    <Header />
   );
 };
 export default Home;
