@@ -18,9 +18,9 @@ const Header: React.FC<IHeader> = ({}) => {
     },
   ];
   return (
-    <div className="flex justify-between md:mx-56 mt-10 p-3 border-4">
-      <span className="text-2xl lg:text-4xl">Product Listing Page</span>
-      <div className="flex space-x-3">
+    <div className="flex justify-between mt-10 p-3 border-4">
+      <span className="text-2xl lg:text-4xl mt-2">Product Listing Page</span>
+      <div className="flex space-x-3 align-middle">
         <DropDown
           options={Options}
           icon={
