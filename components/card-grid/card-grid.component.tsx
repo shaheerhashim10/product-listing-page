@@ -62,10 +62,11 @@ const CardGrid: React.FC<ICard> = ({ cards }) => {
             <div key={product.id} className="group relative">
               <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
                 <Image
-                  src="/images/image1.jpg"
+                  // src="/images/image1.jpg"
+                  src={product.imageSrc}
                   height={400}
                   width={400}
-                  alt=""
+                  alt={product.imageAlt}
                   className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                   priority
                 />
