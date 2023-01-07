@@ -6,8 +6,6 @@ import { NextPage } from "next";
 import Header from "../components/header/header.component";
 import CardGrid from "../components/card-grid/card-grid.component";
 
-const inter = Inter({ subsets: ["latin"] });
-
 const Home: NextPage = () => {
   const products = [
     {
@@ -38,7 +36,7 @@ const Home: NextPage = () => {
       brand: "Black",
     },
     {
-      id: 3,
+      id: 31,
       name: "Basic Tee",
       imageSrc:
         "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
@@ -133,7 +131,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="mt-8">
+      <div>
         <CardGrid cards={products} />
       </div>
     </div>

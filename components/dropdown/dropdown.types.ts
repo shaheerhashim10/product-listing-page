@@ -1,10 +1,14 @@
 export interface IDropdown {
-  options?: Option[];
+  options?: IOption[];
   icon?: React.ReactNode,
+  onChange: (id : string) => void,
 }
 
-export interface Option {
+export interface IOption {
   name: string;
   id: string;
-  handleClick?: (value: string, id: string) => void;
+  active?: boolean,
+//   handleClick?: (value: string, id: string) => void;
+//   handleClick?: (id : string) => void
+//   handleClick?: () => void;
 }
