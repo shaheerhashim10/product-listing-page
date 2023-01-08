@@ -11,7 +11,7 @@ export interface IHomeProps {
   launches: string[];
 }
 const Home: NextPage<IHomeProps> = ({ launches }) => {
-  console.log("launches 123", launches);
+  // console.log("launches 123", launches);
   const products = [
     {
       id: 1,
@@ -173,7 +173,7 @@ export async function getStaticProps() {
     `,
   });
   console.log("launch data");
-  console.log(data);
+  // console.log(data);
 
   return {
     props: {
