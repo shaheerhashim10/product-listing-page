@@ -127,6 +127,24 @@ const products = [
     price: 35,
     brand: "Black",
   },
+  {
+    id: 12,
+    name: "Apple Watch",
+    imageSrc:
+      "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80",
+    imageAlt: "Apple Watch",
+    price: 250,
+    brand: "Apple",
+  },
+  {
+    id: 13,
+    name: "Parker Fountain Pen",
+    imageSrc:
+      "https://images.unsplash.com/photo-1667234262053-0f96d66315f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80",
+    imageAlt: "Parker Fountain Pen",
+    price: 60,
+    brand: "Parker",
+  },
   // More products...
 ];
 

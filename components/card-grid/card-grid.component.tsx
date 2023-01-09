@@ -136,18 +136,16 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
             {cards.map((product) => (
               <div key={product.id} className="group relative">
                 {/* <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80"> */}
-                <div className="">
-                  <Image
-                    // src="/images/image1.jpg"
-                    src={product.imageSrc}
-                    height={400}
-                    width={400}
-                    alt={product.imageAlt}
-                    // className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                    className="w-full h-60 object-cover"
-                    priority
-                  />
-                </div>
+                <Image
+                  // src="/images/image1.jpg"
+                  src={product.imageSrc}
+                  height={400}
+                  width={400}
+                  alt={product.imageAlt}
+                  // className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                  className="w-full h-64 lg:h-96 object-center object-cover"
+                  priority
+                />
                 <div className="mt-4 flex justify-between">
                   <div>
                     <h3 className="text-sm text-gray-700">
