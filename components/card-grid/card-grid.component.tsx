@@ -15,10 +15,6 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
       name: "Default",
     },
     {
-      id: "1",
-      name: "1 Column",
-    },
-    {
       id: "2",
       name: "2 Columns",
     },
