@@ -69,37 +69,24 @@ const Home: NextPage<IHomeProps> = ({ products }) => {
   /* const { data, loading, error } = useQuery(PRODUCTS_QUERY, {
     skip: productsQuery,
   }); */
-  const {
-    data: priceDSC,
-    loading: loadingDSC,
-    error: priceErrorDSC,
-  } = useQuery(GET_PRODUCTS_PRICE, {
+  const { data: priceDSC } = useQuery(GET_PRODUCTS_PRICE, {
     variables: {
       sortType: "DSC",
     },
     skip: priceQueryDSC,
   });
 
-  const {
-    data: priceASC,
-    loading: priceLoadingASC,
-    error: priceErrorASC,
-  } = useQuery(GET_PRODUCTS_PRICE, {
+  const { data: priceASC } = useQuery(GET_PRODUCTS_PRICE, {
     variables: {
       sortType: "ASC",
     },
     skip: priceQueryASC,
   });
 
-  const {
-    data: filterBrandData,
-    loading: filterBrandLoading,
-    error: filterBrandError,
-  } = useQuery(FILTER_PRODUCTS_BY_BRAND, {
+  const { data: filterBrandData } = useQuery(FILTER_PRODUCTS_BY_BRAND, {
     variables: {
       brand: query,
     },
-    skip: false,
   });
 
   products =
