@@ -15,6 +15,7 @@ const typeDefs = gql`
   type Query {
     getProducts: [Product]!
     sortProductsByPrice(sortType: String!): [Product]!
+    filterProductsByBrand(brand: String!): [Product]!
   }
 `;
 const products = [
@@ -150,6 +151,15 @@ const resolvers = {
         return products.sort((a: any, b: any) => a.price - b.price);
       }
       return products;
+    },
+    filterProductsByBrand: (root: any, { brand }: any) => {
+      if (brand) {
+        // return the list of products with the specified brand
+        return products.filter((product) => product.brand === brand);
+      } else {
+        // return the original list of products
+        return products;
+      }
     },
   },
 };

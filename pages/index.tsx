@@ -38,11 +38,23 @@ const GET_PRODUCTS_PRICE = gql`
   }
 `;
 
+const FILTER_PRODUCTS_BY_BRAND = gql`
+  query FilterProductsByBrand($brand: String!) {
+    filterProductsByBrand(brand: $brand) {
+      id
+      name
+      imageSrc
+      imageAlt
+      price
+      brand
+    }
+  }
+`;
+
 const Home: NextPage<IHomeProps> = ({ products }) => {
-  const [query, setQuery] = useState<string>("all");
+  const [query, setQuery] = useState<string>("");
   const [priceQueryASC, setPriceQueryASC] = useState<boolean>(true);
   const [priceQueryDSC, setPriceQueryDSC] = useState<boolean>(true);
-  const [productsQuery, setProductsQuery] = useState<boolean>(false);
   const setQueryType = (queryType: string) => {
     // the callback. Use a better name
     console.log("Render Home: queryType");
@@ -50,14 +62,13 @@ const Home: NextPage<IHomeProps> = ({ products }) => {
     setQuery(queryType);
     setPriceQueryDSC(queryType === "high_to_low" ? false : true);
     setPriceQueryASC(queryType === "low_to_high" ? false : true);
-    setProductsQuery(
-      priceQueryASC === false || priceQueryDSC === false ? true : false
-    );
   };
+  console.log("query ==");
+  console.log(query);
 
-  const { data, loading, error } = useQuery(PRODUCTS_QUERY, {
+  /* const { data, loading, error } = useQuery(PRODUCTS_QUERY, {
     skip: productsQuery,
-  });
+  }); */
   const {
     data: priceDSC,
     loading: loadingDSC,
@@ -80,15 +91,21 @@ const Home: NextPage<IHomeProps> = ({ products }) => {
     skip: priceQueryASC,
   });
 
-  // const { data, loading, error } = useQuery(PRODUCTS_QUERY);
-  console.log("data");
-  // console.log(data);
-  // console.log(data?.sortProductsByPrice);
+  const {
+    data: filterBrandData,
+    loading: filterBrandLoading,
+    error: filterBrandError,
+  } = useQuery(FILTER_PRODUCTS_BY_BRAND, {
+    variables: {
+      brand: query,
+    },
+    skip: false,
+  });
+
   products =
-    data?.getProducts ??
     priceDSC?.sortProductsByPrice ??
-    priceASC?.sortProductsByPrice;
-  // products = data?.sortProductsByPrice;
+    priceASC?.sortProductsByPrice ??
+    filterBrandData?.filterProductsByBrand;
 
   return (
     <div className="md:mx-72">
@@ -103,11 +120,9 @@ const Home: NextPage<IHomeProps> = ({ products }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* <Header /> */}
-      {/* {products && ( */}
       <div>
         <CardGrid cards={products} sendQuery={setQueryType} />
       </div>
-      {/* )} */}
     </div>
   );
 };

@@ -25,23 +25,23 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
   ];
   const filterOptions = [
     {
-      id: "apple",
+      id: "Apple",
       name: "Apple",
     },
     {
-      id: "nike",
+      id: "Nike",
       name: "Nike",
     },
     {
-      id: "adidas",
+      id: "Adidas",
       name: "Adidas",
     },
     {
-      id: "parker",
+      id: "Parker",
       name: "Parker",
     },
     {
-      id: "fossil",
+      id: "Fossil",
       name: "Fossil",
     },
   ];
