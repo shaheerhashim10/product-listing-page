@@ -25,7 +25,7 @@ const PRODUCTS_QUERY = gql`
     }
   }
 `;
-const GET_PRODUCTS_DSC = gql`
+const GET_PRODUCTS_PRICE = gql`
   query SortProductsByPrice($sortType: String!) {
     sortProductsByPrice(sortType: $sortType) {
       id
@@ -37,26 +37,59 @@ const GET_PRODUCTS_DSC = gql`
     }
   }
 `;
+
 const Home: NextPage<IHomeProps> = ({ products }) => {
   const [query, setQuery] = useState<string>("all");
-  
-  const { data, loading, error } = useQuery(GET_PRODUCTS_DSC, {
-    variables: {
-      sortType: "DSC",
-    },
-  });
-  // const { data, loading, error } = useQuery(PRODUCTS_QUERY);
-  console.log("data");
-  // console.log(data);
-  console.log(data?.sortProductsByPrice);
-  // products = data?.getProducts;
-  products = data?.sortProductsByPrice;
+  const [priceQueryASC, setPriceQueryASC] = useState<boolean>(true);
+  const [priceQueryDSC, setPriceQueryDSC] = useState<boolean>(true);
+  const [productsQuery, setProductsQuery] = useState<boolean>(false);
   const setQueryType = (queryType: string) => {
     // the callback. Use a better name
     console.log("Render Home: queryType");
     console.log(queryType);
     setQuery(queryType);
+    setPriceQueryDSC(queryType === "high_to_low" ? false : true);
+    setPriceQueryASC(queryType === "low_to_high" ? false : true);
+    setProductsQuery(
+      priceQueryASC === false || priceQueryDSC === false ? true : false
+    );
   };
+
+  const { data, loading, error } = useQuery(PRODUCTS_QUERY, {
+    skip: productsQuery,
+  });
+  const {
+    data: priceDSC,
+    loading: loadingDSC,
+    error: priceErrorDSC,
+  } = useQuery(GET_PRODUCTS_PRICE, {
+    variables: {
+      sortType: "DSC",
+    },
+    skip: priceQueryDSC,
+  });
+
+  const {
+    data: priceASC,
+    loading: priceLoadingASC,
+    error: priceErrorASC,
+  } = useQuery(GET_PRODUCTS_PRICE, {
+    variables: {
+      sortType: "ASC",
+    },
+    skip: priceQueryASC,
+  });
+
+  // const { data, loading, error } = useQuery(PRODUCTS_QUERY);
+  console.log("data");
+  // console.log(data);
+  // console.log(data?.sortProductsByPrice);
+  products =
+    data?.getProducts ??
+    priceDSC?.sortProductsByPrice ??
+    priceASC?.sortProductsByPrice;
+  // products = data?.sortProductsByPrice;
+
   return (
     <div className="md:mx-72">
       <Head>
@@ -70,11 +103,11 @@ const Home: NextPage<IHomeProps> = ({ products }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* <Header /> */}
-      {products && (
-        <div>
-          <CardGrid cards={products} sendQuery={setQueryType} />
-        </div>
-      )}
+      {/* {products && ( */}
+      <div>
+        <CardGrid cards={products} sendQuery={setQueryType} />
+      </div>
+      {/* )} */}
     </div>
   );
 };
