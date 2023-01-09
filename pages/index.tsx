@@ -1,12 +1,14 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.css";
+// import { Inter } from "@next/font/google";
+// import styles from "../styles/Home.module.css";
 import { NextPage } from "next";
-import Header from "../components/header/header.component";
+import { useState } from "react";
+// import Header from "../components/header/header.component";
 import CardGrid from "../components/card-grid/card-grid.component";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Card } from "../components/card-grid/card-grid.types";
+// import client from "../lib/apollo-client";
 
 export interface IHomeProps {
   products: Card[];
@@ -23,7 +25,75 @@ const PRODUCTS_QUERY = gql`
     }
   }
 `;
+const GET_PRODUCTS_PRICE = gql`
+  query SortProductsByPrice($sortType: String!) {
+    sortProductsByPrice(sortType: $sortType) {
+      id
+      name
+      imageSrc
+      imageAlt
+      price
+      brand
+    }
+  }
+`;
+
+const FILTER_PRODUCTS_BY_BRAND = gql`
+  query FilterProductsByBrand($brand: String!) {
+    filterProductsByBrand(brand: $brand) {
+      id
+      name
+      imageSrc
+      imageAlt
+      price
+      brand
+    }
+  }
+`;
+
 const Home: NextPage<IHomeProps> = ({ products }) => {
+  const [query, setQuery] = useState<string>("");
+  const [priceQueryASC, setPriceQueryASC] = useState<boolean>(true);
+  const [priceQueryDSC, setPriceQueryDSC] = useState<boolean>(true);
+  const setQueryType = (queryType: string) => {
+    // the callback. Use a better name
+    console.log("Render Home: queryType");
+    console.log(queryType);
+    setQuery(queryType);
+    setPriceQueryDSC(queryType === "high_to_low" ? false : true);
+    setPriceQueryASC(queryType === "low_to_high" ? false : true);
+  };
+  console.log("query ==");
+  console.log(query);
+
+  /* const { data, loading, error } = useQuery(PRODUCTS_QUERY, {
+    skip: productsQuery,
+  }); */
+  const { data: priceDSC } = useQuery(GET_PRODUCTS_PRICE, {
+    variables: {
+      sortType: "DSC",
+    },
+    skip: priceQueryDSC,
+  });
+
+  const { data: priceASC } = useQuery(GET_PRODUCTS_PRICE, {
+    variables: {
+      sortType: "ASC",
+    },
+    skip: priceQueryASC,
+  });
+
+  const { data: filterBrandData } = useQuery(FILTER_PRODUCTS_BY_BRAND, {
+    variables: {
+      brand: query,
+    },
+  });
+
+  products =
+    priceDSC?.sortProductsByPrice ??
+    priceASC?.sortProductsByPrice ??
+    filterBrandData?.filterProductsByBrand;
+
   return (
     <div className="md:mx-72">
       <Head>
@@ -36,22 +106,23 @@ const Home: NextPage<IHomeProps> = ({ products }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      {/* <Header /> */}
       <div>
-        <CardGrid cards={products} />
+        <CardGrid cards={products} sendQuery={setQueryType} />
       </div>
     </div>
   );
 };
 export default Home;
 
-export async function getStaticProps() {
-  const client = new ApolloClient({
+/* export async function getStaticProps() {
+const client = new ApolloClient({
     uri: "http://localhost:3000/api/graphql",
     cache: new InMemoryCache({
       addTypename: false,
     }),
   });
+console.log('testing')
   const { data } = await client.query({
     query: PRODUCTS_QUERY,
   });
@@ -60,4 +131,4 @@ export async function getStaticProps() {
       products: data.getProducts,
     },
   };
-}
+} */

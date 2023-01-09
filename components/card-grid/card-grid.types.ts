@@ -1,5 +1,6 @@
 export interface ICard {
   cards: Card[];
+  sendQuery: (id: string) => void;
 }
 
 export interface Card {

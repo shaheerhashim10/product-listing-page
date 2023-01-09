@@ -3,40 +3,44 @@ import { IHeader } from "./header.types";
 import DropDown from "../dropdown/dropdown.component";
 
 const Header: React.FC<IHeader> = ({}) => {
-  const Options = [
+  const filterOptions = [
     {
-      id: "0",
-      name: "Option 1",
+      id: "apple",
+      name: "Apple",
     },
     {
-      id: "1",
-      name: "Option 2",
+      id: "nike",
+      name: "Nike",
     },
     {
-      id: "2",
-      name: "Option 3",
+      id: "adidas",
+      name: "Adidas",
+    },
+    {
+      id: "parker",
+      name: "Parker",
+    },
+    {
+      id: "fossil",
+      name: "Fossil",
     },
   ];
-  const Options2 = [
+  const sortOptions = [
     {
-      id: "0",
-      name: "Option 1",
+      id: "low_to_high",
+      name: "Price: Low to High",
     },
     {
-      id: "1",
-      name: "Option 2",
-    },
-    {
-      id: "2",
-      name: "Option 3",
+      id: "high_to_low",
+      name: "Price: High to Low",
     },
   ];
   return (
     <div className="flex justify-between mt-10 p-3 border-4">
       <span className="text-2xl lg:text-4xl mt-2">Product Listing Page</span>
       <div className="flex space-x-3 align-middle">
-        <DropDown
-          options={Options}
+        {/* <DropDown
+          options={filterOptions}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,10 +57,10 @@ const Header: React.FC<IHeader> = ({}) => {
               />
             </svg>
           }
-          onChange={() => console.log}
+          onChange={(id) => console.log(id)}
         />
         <DropDown
-          options={Options2}
+          options={sortOptions}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -73,8 +77,8 @@ const Header: React.FC<IHeader> = ({}) => {
               />
             </svg>
           }
-          onChange={() => console.log}
-        />
+          onChange={(id) => console.log(id)}
+        /> */}
       </div>
     </div>
   );
