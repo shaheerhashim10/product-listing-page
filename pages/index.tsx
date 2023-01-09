@@ -1,12 +1,14 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.css";
+// import { Inter } from "@next/font/google";
+// import styles from "../styles/Home.module.css";
 import { NextPage } from "next";
-import Header from "../components/header/header.component";
+import { useState } from "react";
+// import Header from "../components/header/header.component";
 import CardGrid from "../components/card-grid/card-grid.component";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Card } from "../components/card-grid/card-grid.types";
+// import client from "../lib/apollo-client";
 
 export interface IHomeProps {
   products: Card[];
@@ -23,7 +25,38 @@ const PRODUCTS_QUERY = gql`
     }
   }
 `;
+const GET_PRODUCTS_DSC = gql`
+  query SortProductsByPrice($sortType: String!) {
+    sortProductsByPrice(sortType: $sortType) {
+      id
+      name
+      imageSrc
+      imageAlt
+      price
+      brand
+    }
+  }
+`;
 const Home: NextPage<IHomeProps> = ({ products }) => {
+  const [query, setQuery] = useState<string>("all");
+  
+  const { data, loading, error } = useQuery(GET_PRODUCTS_DSC, {
+    variables: {
+      sortType: "DSC",
+    },
+  });
+  // const { data, loading, error } = useQuery(PRODUCTS_QUERY);
+  console.log("data");
+  // console.log(data);
+  console.log(data?.sortProductsByPrice);
+  // products = data?.getProducts;
+  products = data?.sortProductsByPrice;
+  const setQueryType = (queryType: string) => {
+    // the callback. Use a better name
+    console.log("Render Home: queryType");
+    console.log(queryType);
+    setQuery(queryType);
+  };
   return (
     <div className="md:mx-72">
       <Head>
@@ -36,22 +69,25 @@ const Home: NextPage<IHomeProps> = ({ products }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
-      <div>
-        <CardGrid cards={products} />
-      </div>
+      {/* <Header /> */}
+      {products && (
+        <div>
+          <CardGrid cards={products} sendQuery={setQueryType} />
+        </div>
+      )}
     </div>
   );
 };
 export default Home;
 
-export async function getStaticProps() {
-  const client = new ApolloClient({
+/* export async function getStaticProps() {
+const client = new ApolloClient({
     uri: "http://localhost:3000/api/graphql",
     cache: new InMemoryCache({
       addTypename: false,
     }),
   });
+console.log('testing')
   const { data } = await client.query({
     query: PRODUCTS_QUERY,
   });
@@ -60,4 +96,4 @@ export async function getStaticProps() {
       products: data.getProducts,
     },
   };
-}
+} */

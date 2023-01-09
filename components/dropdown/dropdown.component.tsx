@@ -4,7 +4,7 @@ import useOutsideAlerter from "../../hooks/click-outside-component";
 
 const DropDown: React.FC<IDropdown> = ({ options, icon, onChange }) => {
   const [isDropdownActive, setIsDropdownActive] = useState<boolean>(false);
-  const [selectedValue, setSelectedValue] = useState("");
+//   const [selectedValue, setSelectedValue] = useState("");
   const wrapperRef = useRef<any>(null);
   // Run outside click function
   useOutsideAlerter(wrapperRef, () => {
@@ -12,8 +12,11 @@ const DropDown: React.FC<IDropdown> = ({ options, icon, onChange }) => {
   });
 
   const onItemClick = (id: string) => {
-    setSelectedValue(id);
+    // console.log('inside onItemClick', id);
     onChange(id);
+    // console.log('2 inside onItemClick --', id);
+    // setSelectedValue(id);
+    // console.log('3 inside onItemClick ==', id);
   };
   return (
     <div
@@ -42,7 +45,7 @@ const DropDown: React.FC<IDropdown> = ({ options, icon, onChange }) => {
         aria-labelledby="menu-button"
         tabIndex={-1}
         // onSelect={() => onSelect}
-        onSelect={() => onChange}
+        // onSelect={() => onChange}
       >
         <div className="py-1" role="none">
           {options?.map(({ id, name }, index) => (
