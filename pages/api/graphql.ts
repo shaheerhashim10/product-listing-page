@@ -11,11 +11,10 @@ const typeDefs = gql`
     price: Int!
     brand: String!
   }
-
   type Query {
     getProducts: [Product]!
     sortProductsByPrice(sortType: String!): [Product]!
-    filterProductsByBrand(brand: String!): [Product]!
+    filterProductsByBrand(brand: String!, page: Int, pageSize: Int): [Product]!
   }
 `;
 const products = [
@@ -151,10 +150,12 @@ const products = [
 // Define the resolvers for the products data
 const resolvers = {
   Query: {
-    getProducts: () => {
+    getProducts: (_parent: any, { page, pageSize }: any) => {
       try {
         // Return the array of products
-        return products;
+        const startIndex = (page - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        return products.slice(startIndex, endIndex);
       } catch (error) {
         throw error;
       }
@@ -170,13 +171,19 @@ const resolvers = {
       }
       return products;
     },
-    filterProductsByBrand: (root: any, { brand }: any) => {
+    filterProductsByBrand: (root: any, { brand, page, pageSize }: any) => {
+      console.log("filterProductsByBrand resolver called =====");
+      const startIndex = (page - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
       if (brand) {
         // return the list of products with the specified brand
-        return products.filter((product) => product.brand === brand);
+        const filteredProducts = products.filter(
+          (product) => product.brand === brand
+        );
+        return filteredProducts.slice(startIndex, endIndex);
       } else {
         // return the original list of products
-        return products;
+        return products.slice(startIndex, endIndex);
       }
     },
   },
