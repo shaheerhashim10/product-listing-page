@@ -1,31 +1,14 @@
 import Head from "next/head";
-import Image from "next/image";
-// import { Inter } from "@next/font/google";
-// import styles from "../styles/Home.module.css";
 import { NextPage } from "next";
 import { useState } from "react";
-// import Header from "../components/header/header.component";
 import CardGrid from "../components/card-grid/card-grid.component";
 import { gql, useQuery } from "@apollo/client";
 import { Card } from "../components/card-grid/card-grid.types";
 import Banner from "../components/banner/banner.component";
-// import client from "../lib/apollo-client";
 
 export interface IHomeProps {
   products: Card[];
 }
-const PRODUCTS_QUERY = gql`
-  query Query {
-    getProducts {
-      id
-      name
-      imageSrc
-      imageAlt
-      price
-      brand
-    }
-  }
-`;
 const GET_PRODUCTS_PRICE = gql`
   query SortProductsByPrice($sortType: String!) {
     sortProductsByPrice(sortType: $sortType) {
@@ -40,8 +23,8 @@ const GET_PRODUCTS_PRICE = gql`
 `;
 
 const FILTER_PRODUCTS_BY_BRAND = gql`
-  query FilterProductsByBrand($brand: String!) {
-    filterProductsByBrand(brand: $brand) {
+  query FilterProductsByBrand($brand: String!, $page: Int, $pageSize: Int) {
+    filterProductsByBrand(brand: $brand, page: $page, pageSize: $pageSize) {
       id
       name
       imageSrc
@@ -52,24 +35,18 @@ const FILTER_PRODUCTS_BY_BRAND = gql`
   }
 `;
 
-const Home: NextPage<IHomeProps> = ({ products }) => {
+const PAGE_SIZE = 4;
+
+const Home: NextPage<IHomeProps> = ({}) => {
   const [query, setQuery] = useState<string>("");
   const [priceQueryASC, setPriceQueryASC] = useState<boolean>(true);
   const [priceQueryDSC, setPriceQueryDSC] = useState<boolean>(true);
+  const [page, setPage] = useState<Number>(1);
   const setQueryType = (queryType: string) => {
-    // the callback. Use a better name
-    console.log("Render Home: queryType");
-    console.log(queryType);
     setQuery(queryType);
     setPriceQueryDSC(queryType === "high_to_low" ? false : true);
     setPriceQueryASC(queryType === "low_to_high" ? false : true);
   };
-  console.log("query ==");
-  console.log(query);
-
-  /* const { data, loading, error } = useQuery(PRODUCTS_QUERY, {
-    skip: productsQuery,
-  }); */
   const { data: priceDSC } = useQuery(GET_PRODUCTS_PRICE, {
     variables: {
       sortType: "DSC",
@@ -84,19 +61,25 @@ const Home: NextPage<IHomeProps> = ({ products }) => {
     skip: priceQueryASC,
   });
 
-  const { data: filterBrandData } = useQuery(FILTER_PRODUCTS_BY_BRAND, {
+  const {
+    loading,
+    error,
+    data: filterBrandData,
+  } = useQuery(FILTER_PRODUCTS_BY_BRAND, {
     variables: {
       brand: query,
+      page: page,
+      pageSize: PAGE_SIZE,
     },
   });
 
-  products =
+  const products =
     priceDSC?.sortProductsByPrice ??
     priceASC?.sortProductsByPrice ??
     filterBrandData?.filterProductsByBrand;
-
+  const count = products?.length;
   return (
-    <div className="md:mx-72">
+    <div className="md:mx-72 border-2 border-transparent">
       <Head>
         <title>Product Listing Page</title>
         <meta
@@ -108,29 +91,29 @@ const Home: NextPage<IHomeProps> = ({ products }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Banner />
-      {/* <Header /> */}
-      <div>
+      <div className="mb-24">
         <CardGrid cards={products} sendQuery={setQueryType} />
+        <div className="flex justify-between px-4 lg:px-24">
+          <button
+            className="inline-block px-6 py-2.5 bg-zinc-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-zinc-500 hover:shadow-lg focus:bg-zinc-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-zinc-800 active:shadow-lg transition duration-150 ease-in-out"
+            disabled={page === 1 ? true : false}
+            onClick={() => setPage((prev: any) => prev - 1)}
+          >
+            {" "}
+            Previous{" "}
+          </button>
+          <span className="page-link relative block py-1.5 px-3 rounded border-0 bg-blue-600 outline-none transition-all duration-300 rounded text-white hover:text-white hover:bg-blue-600 shadow-md focus:shadow-md">{`Page ${page}`}</span>
+          <button
+            className="inline-block px-6 py-2.5 bg-zinc-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-zinc-500 hover:shadow-lg focus:bg-zinc-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-zinc-800 active:shadow-lg transition duration-150 ease-in-out"
+            disabled={count === 0}
+            onClick={() => setPage((prev: any) => prev + 1)}
+          >
+            {" "}
+            Next{" "}
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 export default Home;
-
-/* export async function getStaticProps() {
-const client = new ApolloClient({
-    uri: "http://localhost:3000/api/graphql",
-    cache: new InMemoryCache({
-      addTypename: false,
-    }),
-  });
-console.log('testing')
-  const { data } = await client.query({
-    query: PRODUCTS_QUERY,
-  });
-  return {
-    props: {
-      products: data.getProducts,
-    },
-  };
-} */

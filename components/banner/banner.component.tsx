@@ -4,7 +4,7 @@ import { IBanner } from "./banner.types";
 const Banner: React.FC<IBanner> = ({ displayAtBottom = false }) => {
   return (
     <div
-      className={`bg-indigo-600 sticky ${displayAtBottom ? "top-[100vh]" : ""}`}
+      className={`bg-indigo-600 sticky ${displayAtBottom ? "top-[200vh]" : ""}`}
     >
       <div className="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-center">
