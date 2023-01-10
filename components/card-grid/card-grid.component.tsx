@@ -102,6 +102,7 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
                 </svg>
               }
               onChange={(id) => setQuery(id)}
+              title="Filter by brand name"
             />
             <DropDown
               options={sortOptions}
@@ -122,6 +123,7 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
                 </svg>
               }
               onChange={(id) => setQuery(id)}
+              title="Sort by price"
             />
           </div>
         </div>
