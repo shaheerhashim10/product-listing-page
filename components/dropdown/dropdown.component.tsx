@@ -41,7 +41,7 @@ const DropDown: React.FC<IDropdown> = ({ options, icon, onChange, title }) => {
         aria-labelledby="menu-button"
         tabIndex={-1}
       >
-        <div className="p-2 font-semibold border-b-2">{title}</div>
+        {title && <div className="p-2 font-semibold border-b-2">{title}</div>}
         <div className="py-1" role="none">
           {options?.map(({ id, name }, index) => (
             <div

@@ -80,7 +80,6 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
                   </svg>
                 }
                 onChange={(id) => setColumns(id)}
-                // onChange={(id) => console.log(typeof id)}
               />
             </div>
             <DropDown
