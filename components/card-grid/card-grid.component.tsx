@@ -18,10 +18,6 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
       id: "2",
       name: "2 Columns",
     },
-    {
-      id: "3",
-      name: "3 Columns",
-    },
   ];
   const filterOptions = [
     {
