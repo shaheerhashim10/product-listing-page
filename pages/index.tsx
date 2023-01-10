@@ -79,7 +79,7 @@ const Home: NextPage<IHomeProps> = ({}) => {
     filterBrandData?.filterProductsByBrand;
   const count = products?.length;
   return (
-    <div className="md:mx-72">
+    <div className="md:mx-72 border-2 border-transparent">
       <Head>
         <title>Product Listing Page</title>
         <meta
@@ -91,26 +91,28 @@ const Home: NextPage<IHomeProps> = ({}) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Banner />
-      <div>
+      <div className="mb-24">
         <CardGrid cards={products} sendQuery={setQueryType} />
+        <div className="flex justify-between px-4 lg:px-24">
+          <button
+            className="inline-block px-6 py-2.5 bg-zinc-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-zinc-500 hover:shadow-lg focus:bg-zinc-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-zinc-800 active:shadow-lg transition duration-150 ease-in-out"
+            disabled={page === 1 ? true : false}
+            onClick={() => setPage((prev: any) => prev - 1)}
+          >
+            {" "}
+            Previous{" "}
+          </button>
+          <span className="page-link relative block py-1.5 px-3 rounded border-0 bg-blue-600 outline-none transition-all duration-300 rounded text-white hover:text-white hover:bg-blue-600 shadow-md focus:shadow-md">{`Page ${page}`}</span>
+          <button
+            className="inline-block px-6 py-2.5 bg-zinc-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-zinc-500 hover:shadow-lg focus:bg-zinc-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-zinc-800 active:shadow-lg transition duration-150 ease-in-out"
+            disabled={count === 0}
+            onClick={() => setPage((prev: any) => prev + 1)}
+          >
+            {" "}
+            Next{" "}
+          </button>
+        </div>
       </div>
-      <nav className="flex justify-between">
-        <button
-          disabled={page === 1 ? true : false}
-          onClick={() => setPage((prev: any) => prev - 1)}
-        >
-          {" "}
-          Previous{" "}
-        </button>
-        <span>{`Page ${page}`}</span>
-        <button
-          disabled={count === 0}
-          onClick={() => setPage((prev: any) => prev + 1)}
-        >
-          {" "}
-          Next{" "}
-        </button>
-      </nav>
     </div>
   );
 };
