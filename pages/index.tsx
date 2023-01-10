@@ -8,6 +8,7 @@ import { useState } from "react";
 import CardGrid from "../components/card-grid/card-grid.component";
 import { gql, useQuery } from "@apollo/client";
 import { Card } from "../components/card-grid/card-grid.types";
+import Banner from "../components/banner/banner.component";
 // import client from "../lib/apollo-client";
 
 export interface IHomeProps {
@@ -106,6 +107,7 @@ const Home: NextPage<IHomeProps> = ({ products }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Banner />
       {/* <Header /> */}
       <div>
         <CardGrid cards={products} sendQuery={setQueryType} />
