@@ -58,7 +58,7 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
 
   return (
     <div className="bg-white">
-      <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+      <div className="mx-auto mt-8 px-4  sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="flex justify-between">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
             Products
@@ -131,6 +131,7 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
         </div>
         {cards && (
           <div
+            // className={`mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8`}
             className={`mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-${columns} xl:gap-x-8`}
           >
             {cards.map((product) => (

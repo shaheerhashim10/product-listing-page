@@ -93,7 +93,7 @@ const Home: NextPage<IHomeProps> = ({}) => {
       <Banner />
       <div className="mb-24">
         <CardGrid cards={products} sendQuery={setQueryType} />
-        <div className="flex justify-between px-4 lg:px-24">
+        <div className="flex justify-between mt-16 px-4 md:px-4 sm:px-4 lg:px-24">
           <button
             className={`inline-block px-6 py-2.5 bg-zinc-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-zinc-500 hover:shadow-lg focus:bg-zinc-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-zinc-800 active:shadow-lg transition duration-150 ease-in-out ${page === 1 ? 'opacity-20' : ''}`}
             disabled={page === 1 ? true : false}
