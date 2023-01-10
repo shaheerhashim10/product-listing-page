@@ -2,6 +2,7 @@ export interface IDropdown {
   options?: IOption[];
   icon?: React.ReactNode,
   onChange: (id : string) => void,
+  title?: string,
 }
 
 export interface IOption {

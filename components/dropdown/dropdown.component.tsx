@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react";
 import { IDropdown, IOption } from "./dropdown.types";
 import useOutsideAlerter from "../../hooks/click-outside-component";
 
-const DropDown: React.FC<IDropdown> = ({ options, icon, onChange }) => {
+const DropDown: React.FC<IDropdown> = ({ options, icon, onChange, title }) => {
   const [isDropdownActive, setIsDropdownActive] = useState<boolean>(false);
-//   const [selectedValue, setSelectedValue] = useState("");
+  //   const [selectedValue, setSelectedValue] = useState("");
   const wrapperRef = useRef<any>(null);
   // Run outside click function
   useOutsideAlerter(wrapperRef, () => {
@@ -12,11 +12,7 @@ const DropDown: React.FC<IDropdown> = ({ options, icon, onChange }) => {
   });
 
   const onItemClick = (id: string) => {
-    // console.log('inside onItemClick', id);
     onChange(id);
-    // console.log('2 inside onItemClick --', id);
-    // setSelectedValue(id);
-    // console.log('3 inside onItemClick ==', id);
   };
   return (
     <div
@@ -44,9 +40,8 @@ const DropDown: React.FC<IDropdown> = ({ options, icon, onChange }) => {
         aria-orientation="vertical"
         aria-labelledby="menu-button"
         tabIndex={-1}
-        // onSelect={() => onSelect}
-        // onSelect={() => onChange}
       >
+        {title && <div className="p-2 font-semibold border-b-2">{title}</div>}
         <div className="py-1" role="none">
           {options?.map(({ id, name }, index) => (
             <div
@@ -54,8 +49,6 @@ const DropDown: React.FC<IDropdown> = ({ options, icon, onChange }) => {
               role="menuitem"
               tabIndex={-1}
               key={id}
-              //   onClick={(id) => handleClick(id)}
-              //   onClick={() => handleClick}
               onClick={() => onItemClick(id)}
             >
               {name}

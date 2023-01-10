@@ -18,10 +18,6 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
       id: "2",
       name: "2 Columns",
     },
-    {
-      id: "3",
-      name: "3 Columns",
-    },
   ];
   const filterOptions = [
     {
@@ -84,7 +80,6 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
                   </svg>
                 }
                 onChange={(id) => setColumns(id)}
-                // onChange={(id) => console.log(typeof id)}
               />
             </div>
             <DropDown
@@ -106,6 +101,7 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
                 </svg>
               }
               onChange={(id) => setQuery(id)}
+              title="Filter by brand name"
             />
             <DropDown
               options={sortOptions}
@@ -126,6 +122,7 @@ const CardGrid: React.FC<ICard> = ({ cards, sendQuery }) => {
                 </svg>
               }
               onChange={(id) => setQuery(id)}
+              title="Sort by price"
             />
           </div>
         </div>

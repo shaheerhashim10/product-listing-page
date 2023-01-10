@@ -13,7 +13,7 @@ const typeDefs = gql`
   }
   type Query {
     getProducts: [Product]!
-    sortProductsByPrice(sortType: String!): [Product]!
+    sortProductsByPrice(sortType: String!, page: Int, pageSize: Int): [Product]!
     filterProductsByBrand(brand: String!, page: Int, pageSize: Int): [Product]!
   }
 `;
@@ -160,26 +160,31 @@ const resolvers = {
         throw error;
       }
     },
-    sortProductsByPrice: (root: any, { sortType }: any) => {
+    sortProductsByPrice: (root: any, { sortType, page, pageSize }: any) => {
+      const startIndex = (page - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
       // sort the list of products based on the value of sortType here
       if (sortType === "DSC") {
         // sort high to low
-        return products.sort((a: any, b: any) => b.price - a.price);
+        return products
+          .sort((a: any, b: any) => b.price - a.price)
+          .slice(startIndex, endIndex);
       } else if (sortType === "ASC") {
         // sort low to high
-        return products.sort((a: any, b: any) => a.price - b.price);
+        return products
+          .sort((a: any, b: any) => a.price - b.price)
+          .slice(startIndex, endIndex);
       }
-      return products;
+      return products.slice(startIndex, endIndex);
     },
     filterProductsByBrand: (root: any, { brand, page, pageSize }: any) => {
       const startIndex = (page - 1) * pageSize;
       const endIndex = startIndex + pageSize;
       if (brand) {
         // return the list of products with the specified brand
-        const filteredProducts = products.filter(
-          (product) => product.brand === brand
-        );
-        return filteredProducts.slice(startIndex, endIndex);
+        return products
+          .filter((product) => product.brand === brand)
+          .slice(startIndex, endIndex);
       } else {
         // return the original list of products
         return products.slice(startIndex, endIndex);
