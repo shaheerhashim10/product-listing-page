@@ -172,7 +172,6 @@ const resolvers = {
       return products;
     },
     filterProductsByBrand: (root: any, { brand, page, pageSize }: any) => {
-      console.log("filterProductsByBrand resolver called =====");
       const startIndex = (page - 1) * pageSize;
       const endIndex = startIndex + pageSize;
       if (brand) {
